@@ -10,7 +10,6 @@ function calc(e){
     if(!isNaN(calculo)){
       // alert(calculo);
       document.getElementById("result").value = calculo
-      document.getElementById("result-transcendental").value =calculo
     }
    
  }
