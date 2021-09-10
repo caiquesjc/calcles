@@ -59,3 +59,8 @@ Execute no terminal dentro da pasta _src_
 python app.py
 ~~~
 _copie o endereço ip e porta que está sendo exibido no terminal e cole no navegador_ 
+
+--- ---
+Video explicativo:
+
+[![Imagem](https://img.youtube.com/vi/vrn_lFLMI7k/0.jpg)](https://youtu.be/vrn_lFLMI7k)
