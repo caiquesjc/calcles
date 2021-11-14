@@ -1,2 +1,2 @@
 def calcula(arg):
-    return str(eval(arg))
+    return eval(arg)

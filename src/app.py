@@ -5,6 +5,8 @@ from services.elementar import calcula
 from services.seno import seno
 from services.logs import logAdd, select
 import time
+import requests
+
 
 
 
@@ -17,40 +19,53 @@ logs_template = env.get_template('Logs.html')
 
 app = Flask(__name__,static_folder="static")
 
-
+#tela principal
 @app.route('/')
 def calcular():
     return calculadora_template.render()
-
+#tela logs
 @app.route('/logs')
 def logs():
     return logs_template.render()
-
+#servico elementar
 @app.route('/elementar', methods=['POST'])
-def elementar():
+def elementar_op():
     
     args = request.get_json()
-    logAdd(time.strftime('%Y-%m-%d %H:%M:%S'), "elementar", args['args'], args['args'])
-    
-    return calcula(args['args'])
+    print(args)
+    logAdd(time.strftime('%Y-%m-%d %H:%M:%S'), 1, args['args'], args['args'])
+    return dict(resultado=calcula(args['args']))
 
 @app.route('/seno', methods=['POST'])
-def seno():
+def seno_op():
     arg = request.get_json()
-    return seno(arg['arg'])
+    
+    logAdd(time.strftime('%Y-%m-%d %H:%M:%S'), 2, arg['arg'], arg['arg'])
+
+    return dict(resultado=seno(arg['arg']))
 
 @app.route("/operacao", methods=['POST'])
 def operacao():
-    x = request.get_json()
-    result = seno(calcula(f'{x["x"]}**2')) * calcula(f'{x["x"]}+10')
-    logAdd(time.strftime('%Y-%m-%d %H:%M:%S'), "transcendental", f'sen({x["x"]}^2) * ({x["x"]}+10)', x['args'])
-    return result
+
+    arg = request.get_json()
+
+    res_x2 = requests.post("http://192.168.100.6:9900/elementar",json={"args":f'{arg["x"]}**2'}).json()["resultado"]
+    
+    res_x10 = requests.post("http://192.168.100.6:9900/elementar",json={"args":f'{arg["x"]}+10'}).json()["resultado"]
+
+    res_sen = requests.post("http://192.168.100.6:9900/seno",json={"arg": res_x2}).json()["resultado"]
+
+    resultado = requests.post("http://192.168.100.6:9900/elementar",json={"args":f'{res_sen}*{res_x10}'}).json()["resultado"]
+
+    logAdd(time.strftime('%Y-%m-%d %H:%M:%S'), 3, f'sen({arg["x"]}^2) * ({arg["x"]}+10)', arg['x'])
+    return dict(resultado=resultado)
 
 @app.route("/listar")
 def listar():
-    log = select()
-    return log
+    logs_lista = select()
+    return dict(logs=logs_lista)
 
 if __name__ =='__main__':
     #app.run('0.0.0.0', port=9900)
+    print(f"acese a porta: {9900}")
     serve(app, host="0.0.0.0", port=9900)
