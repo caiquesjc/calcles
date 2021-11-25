@@ -59,6 +59,7 @@ td, th {
     font-size: large;
     text-align: center;
     border-radius: 15px;
+    width: 50%;
 }
 
 .input-elementar-op {
@@ -67,4 +68,12 @@ td, th {
     text-align: center;
     border-radius: 10px;
     margin: 15px;
+}
+
+.input-fil {
+    padding: 8px;
+    font-size: large;
+    text-align: center;
+    border-radius: 15px;
+
 }
