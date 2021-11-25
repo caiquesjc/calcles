@@ -57,7 +57,7 @@ function addData() {
   const xhttp = new XMLHttpRequest();
   xhttp.onload = function () {
     res = JSON.parse(this.responseText);
-    res.logs.map(function (item) {
+    res.logs.reverse().map(function (item) {
       document.getElementById(
         "value-table"
       ).innerHTML += `<tr><td>${item.date_op}</td><td>${item.name_op}</td><td>${item.spec_op}</td><td>${item.args_op}</td></tr>`;
