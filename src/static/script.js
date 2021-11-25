@@ -52,8 +52,8 @@ function limpar() {
   document.getElementById("n2").value = "";
 }
 
-
 function addData() {
+  document.getElementById("value-table").innerHTML = "";
   const xhttp = new XMLHttpRequest();
   xhttp.onload = function () {
     res = JSON.parse(this.responseText);
