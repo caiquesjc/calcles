@@ -1,8 +1,7 @@
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.sql.sqltypes import Integer
 
-engine = sqlalchemy.create_engine("mariadb+mariadbconnector://root:root@192.168.100.49:3306/calcles")
+engine = sqlalchemy.create_engine(f"mariadb+mariadbconnector://root:root@192.168.100.49:3306/calcles")
 
 Base = declarative_base()
 
@@ -11,7 +10,7 @@ class Logs(Base):
     __tablename__ = 'logs'
     op_id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
     date_op = sqlalchemy.Column(sqlalchemy.String(length=100))
-    type_op = sqlalchemy.Column(Integer)
+    type_op = sqlalchemy.Column(sqlalchemy.Integer)
     spec_op = sqlalchemy.Column(sqlalchemy.String(length=100))
     args_op = sqlalchemy.Column(sqlalchemy.String(length=100))
 
