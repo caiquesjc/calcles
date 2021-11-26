@@ -1,6 +1,0 @@
-flask
-jinja2
-flask_sqlalchemy
-mariadb
-waitress
-requests
