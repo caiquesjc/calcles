@@ -10,6 +10,7 @@ import requests
 
 
 
+
 env = Environment(
    loader=FileSystemLoader('./templates')
 )

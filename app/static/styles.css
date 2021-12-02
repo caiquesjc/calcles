@@ -1,0 +1,79 @@
+
+/*estilo navegação */
+.nav {
+    width: 100%;
+    text-align: center;
+    margin-top: 25px;
+}
+
+.item-nav {
+    background-color: darkgreen;
+    color: #fff;
+    text-decoration: none;
+    font-size: xx-large;
+
+    padding: 10px;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+.item-nav:hover {
+    background-color: cornflowerblue;
+}
+
+.table {
+    width: 70%;
+    font-size: x-large;
+    margin: auto;
+    margin-top: 50px;
+    border: 1px solid black;
+}
+
+td, th {
+    border: 1px solid black;
+    padding-top: 20px;
+    text-align: center;
+}
+.container_calc {
+    width: 100%;
+    padding-top: 25px;
+    flex-direction: row;
+    text-align: center;
+}
+.elementar, .transcendental {
+    background-color: aliceblue;
+    width: 48%;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+    flex-direction: row;
+    float: left;
+    margin-left: 1%;
+}
+.txt {
+    font-size: larger;
+    padding: 15px;
+}
+.input-elementar {
+    padding: 8px;
+    font-size: large;
+    text-align: center;
+    border-radius: 15px;
+    width: 50%;
+}
+
+.input-elementar-op {
+    padding: 8px;
+    font-size: larger;
+    text-align: center;
+    border-radius: 10px;
+    margin: 15px;
+}
+
+.input-fil {
+    padding: 8px;
+    font-size: large;
+    text-align: center;
+    border-radius: 15px;
+
+}

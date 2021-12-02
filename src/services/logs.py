@@ -2,7 +2,6 @@ from models.api import addLog, selectAll
 
 def logAdd(date_op, type_op, spec_op, args_op):
     addLog(date_op, type_op, spec_op, args_op)
-    print(f" log: {date_op} - {type_op} - {spec_op} - {args_op}")
     return f" log: {date_op} - {type_op} - {spec_op} - {args_op}"
 
 
