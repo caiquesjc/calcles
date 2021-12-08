@@ -2,32 +2,33 @@ from flask import Flask, request
 from waitress import serve
 import requests
 from flask_cors import CORS
+import get_db
 
 
 
 app = Flask(__name__)
 CORS(app)
 
-elementar = {'operation':'/elementar', 'address':'192.168.100.6', 'port':9903, 'route':'/calcula'}
-seno = {'operation':'/seno', 'address':'192.168.100.6', 'port':9903, 'route':'/seno'}
-logsListar = {'operation':'/logs-listar', 'address':'192.168.100.6', 'port':9905, 'route':'/listar'}
-logsCad = {'operation':'/logs-cadastrar', 'address':'192.168.100.6', 'port':9905, 'route':'/inserir'}
-operacao = {'operation':'/operacao', 'address':'192.168.100.6', 'port':9906, 'route':'/operacao'}
+service_registry = []
 
 
-service_registry = [elementar, seno, logsListar, logsCad, operacao]
+db = get_db.selectAll()
+for k in db:
+    service_registry.append({'operation':k[0], 'address':k[1], 'port':k[2], 'route':k[3]})
+
 
 @app.route('/api/<operation>', methods=['POST', 'GET'])
 def api_gateway(operation):
-
+    print("operation")
     for service_config in service_registry:
         if service_config['operation'] == ('/'+operation):
+            print(service_config)
             if request.method == "GET":
-                url = 'http://' + service_config['address'] +':' + str(service_config['port']) + service_config['route'] 
+                url = 'http://' + service_config['address'] +':' + service_config['port'] + service_config['route'] 
                 result = requests.get(url)
                 return result.json()
             elif request.method == "POST":
-                url = 'http://' + service_config['address'] +':' + str(service_config['port']) + service_config['route']
+                url = 'http://' + service_config['address'] +':' + service_config['port'] + service_config['route']
                 result = requests.post(url, json=request.json)
                 return result.json()
     else:
