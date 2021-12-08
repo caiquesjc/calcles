@@ -9,10 +9,10 @@ function calc(e) {
   } else {
     options = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
       body: JSON.stringify({ args: n1 + operacao + n2 }),
     };
-    fetch("http://192.168.100.6:9903/calcula", options)
+    fetch("http://192.168.100.6:5502/api/elementar", options)
       .then((res) => res.json())
       .then(
         (data) => (document.getElementById("result").value = data.result)
@@ -28,10 +28,10 @@ function transcendental() {
   } else {
     options = {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
       body: JSON.stringify({ "x": x }),
     };
-    fetch("http://192.168.100.6:9906/operacao", options)
+    fetch("http://192.168.100.6:5502/api/operacao", options)
       .then((res) => res.json())
       .then(
         (data) =>
@@ -63,7 +63,7 @@ function addData() {
       ).innerHTML += `<tr><td>${item.date_op}</td><td>${item.name_op}</td><td>${item.spec_op}</td><td>${item.args_op}</td></tr>`;
     });
   };
-  xhttp.open("GET", "http://192.168.100.6:9905/listar");
+  xhttp.open("GET", "http://192.168.100.6:5502/api/logs-listar");
   xhttp.send();
 }
 
@@ -86,6 +86,6 @@ function filterData() {
       }
     });
   };
-  xhttp.open("GET", "http://192.168.100.6:9905/listar");
+  xhttp.open("GET", "http://192.168.100.6:5502/api/logs-listar")
   xhttp.send();
 }

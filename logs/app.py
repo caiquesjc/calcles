@@ -9,11 +9,14 @@ CORS(app)
 
 @app.route("/inserir", methods=['POST'])
 def logAdd():
-    req = request.get_json()
-    addLog(req['date_op'], req['type_op'], req['spec_op'], req['args_op'])
-    #time.strftime('%Y-%m-%d %H:%M:%S'), 3, f'sen({arg["x"]}^2) * ({arg["x"]}+10)', arg['x']
+    try:
+        req = request.get_json()
+        addLog(req['date_op'], req['type_op'], req['spec_op'], req['args_op'])
+        return dict(success=True)
+    except:
+        return dict(success=False)
 
-    return "success"
+    
 
 @app.route("/listar")
 def list_logs():

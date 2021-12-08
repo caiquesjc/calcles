@@ -1,24 +1,38 @@
 from flask import Flask, request
-from urllib import parse, request as req
+from waitress import serve
+import requests
+from flask_cors import CORS
+
 
 
 app = Flask(__name__)
+CORS(app)
 
-elementar = {'operation':'/elementar', 'address':'192.168.100.6', 'port':9903, 'route':'/elementar'}
-seno = {'operation':'/seno', 'address':'192.168.100.6', 'port':9904, 'route':'/seno'}
-logs = {'operation':'/logs', 'address':'192.168.100.6', 'port':9905, 'route':'/logs/listar'}
+elementar = {'operation':'/elementar', 'address':'192.168.100.6', 'port':9903, 'route':'/calcula'}
+seno = {'operation':'/seno', 'address':'192.168.100.6', 'port':9903, 'route':'/seno'}
+logsListar = {'operation':'/logs-listar', 'address':'192.168.100.6', 'port':9905, 'route':'/listar'}
+logsCad = {'operation':'/logs-cadastrar', 'address':'192.168.100.6', 'port':9905, 'route':'/inserir'}
+operacao = {'operation':'/operacao', 'address':'192.168.100.6', 'port':9906, 'route':'/operacao'}
 
-service_registry = [elementar, seno, logs]
 
-@app.route('/api/<operation>')
+service_registry = [elementar, seno, logsListar, logsCad, operacao]
+
+@app.route('/api/<operation>', methods=['POST', 'GET'])
 def api_gateway(operation):
+
     for service_config in service_registry:
         if service_config['operation'] == ('/'+operation):
-            parameters = { 'str_input': request.args.get('str_input')}
-            url = 'http://' + service_config['address'] +':' + str(service_config['port']) + service_config['route'] 
-            url_request = req.urlopen(url+'?'+parse.urlencode(parameters))
-            result = url_request.read()
-            return result
+            if request.method == "GET":
+                url = 'http://' + service_config['address'] +':' + str(service_config['port']) + service_config['route'] 
+                result = requests.get(url)
+                return result.json()
+            elif request.method == "POST":
+                url = 'http://' + service_config['address'] +':' + str(service_config['port']) + service_config['route']
+                result = requests.post(url, json=request.json)
+                return result.json()
+    else:
+        return "unauthorized method"
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5002)
+    print(f"acesse a porta: {5502}")
+    serve(app, host="0.0.0.0", port=5502)

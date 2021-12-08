@@ -22,12 +22,15 @@ def calcula():
         if "**" in args:
             res["op"] = "**"
 
-        requests.post("http://192.168.100.6:9905/inserir", json={
-            "date_op": time.strftime('%Y-%m-%d %H:%M:%S'),
-            "type_op": 1,
-            "spec_op": str(res["op"]),
-            "args_op": str(res["args"])
-        })
+        try:
+            requests.post("http://192.168.100.6:5502/api/logs-cadastrar", json={
+                "date_op": time.strftime('%Y-%m-%d %H:%M:%S'),
+                "type_op": 1,
+                "spec_op": str(res["op"]),
+                "args_op": str(res["args"])
+            })
+        except:
+            "log nao adicionado"
         return res
     except:
         return "An exception occurred"
@@ -39,13 +42,15 @@ def seno():
         req = request.get_json()
         res = {"arg": req["arg"], "op": "seno",
                "result": str(sin(float(req["arg"])))}
-
-        requests.post("http://192.168.100.6:9905/inserir", json={
-            "date_op": time.strftime('%Y-%m-%d %H:%M:%S'),
-            "type_op": 1,
-            "spec_op": res["op"],
-            "args_op": res["arg"]
-        })
+        try:
+            requests.post("http://192.168.100.6:5502/api/logs-cadastrar", json={
+                "date_op": time.strftime('%Y-%m-%d %H:%M:%S'),
+                "type_op": 2,
+                "spec_op": res["op"],
+                "args_op": res["arg"]
+            })
+        except:
+            "log nao adicionado"
 
         return res
     except:
